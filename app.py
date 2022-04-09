@@ -1,4 +1,4 @@
-from flask import Flask, session, jsonify, request
+from flask import Flask, session, jsonify, request, make_response
 import json
 import os
 from diagnostics import (
@@ -29,32 +29,50 @@ prediction_model = None
 def predict():        
     dataset_path = request.json.get('dataset_path')
     _, y_pred = model_predictions(dataset_path)
-    return y_pred
+    return make_response(
+        jsonify(
+            predictions = y_pred
+        ),
+        200
+    )
 
 
 #######################Scoring Endpoint
 @app.route("/scoring", methods=['GET','OPTIONS'])
 def scoring():        
     score = score_model()
-    return str(score)
+    return make_response(
+        jsonify(
+            score = score
+        ),
+        200
+    )
 
 #######################Summary Statistics Endpoint
 @app.route("/summarystats", methods=['GET','OPTIONS'])
 def stats():        
     summary = dataframe_summary()
-    return summary
+    return make_response(
+        jsonify(
+            summary
+        ),
+        200
+    )
 
 #######################Diagnostics Endpoint
 @app.route("/diagnostics", methods=['GET','OPTIONS'])
 def diagnostics():        
-    execution_time = execution_time()
-    missing_data = missing_data()
-    outdated_packages_list = outdated_packages_list()     
-    return str(
-        "execution_time:" + 
-        execution_time + "\nmissing_data;"+ 
-        missing_data + "\noutdated_packages:" + 
-        outdated_packages_list
+    exec_time = execution_time()
+    miss_data = missing_data()
+    out_packages = outdated_packages_list()     
+
+    return make_response(
+        jsonify(
+            execution_time = exec_time,  
+            missing_data = miss_data, 
+            outdated_packages = out_packages
+        ),
+        200
     )
 
 

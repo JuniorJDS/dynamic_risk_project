@@ -3,6 +3,7 @@ import os
 import subprocess
 import json
 import timeit
+import sys
 
 from joblib import load
 
@@ -99,9 +100,9 @@ def execution_time():
 
 ##################Function to check dependencies
 def outdated_packages_list():
-    outdated_packages = subprocess.check_output(['pip', 'list', '--outdated']).decode()
+    outdated_packages = subprocess.check_output(['pip', 'list', '--outdated']).decode(sys.stdout.encoding)
     
-    return outdated_packages
+    return str(outdated_packages)
 
 if __name__ == '__main__':
     model_predictions(dataset_path=None)
