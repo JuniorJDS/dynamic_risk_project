@@ -31,7 +31,7 @@ def predict():
     _, y_pred = model_predictions(dataset_path)
     return make_response(
         jsonify(
-            predictions = y_pred
+            predictions = y_pred.tolist()
         ),
         200
     )

@@ -1,20 +1,32 @@
 import requests
-
-#Specify a URL that resolves to your workspace
-URL = "http://127.0.0.1/"
-
+import os
+import json
 
 
-#Call each API endpoint and store the responses
-response1 = #put an API call here
-response2 = #put an API call here
-response3 = #put an API call here
-response4 = #put an API call here
+def main():
 
-#combine all API responses
-responses = #combine reponses here
+    URL = "http://127.0.0.1:5000"
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
-#write the responses to your workspace
+    response1 = requests.post(
+        f"{URL}/prediction", 
+        json={"dataset_path": "testdata.csv"}, headers=headers).text
+    response2 = requests.get(f"{URL}/scoring", headers=headers).text
+    response3 = requests.get(f"{URL}/summarystats", headers=headers).text
+    response4 = requests.get(f"{URL}/diagnostics", headers=headers).text
 
 
+    # combine all API responses
+    responses = response1 + "\n" + response2 + "\n" + response3 + "\n" + response4
 
+    # write the responses to your workspace
+    with open('config.json','r') as f:
+        config = json.load(f) 
+    model_path = os.path.join(config['output_model_path'])
+
+    with open(os.path.join(model_path, "apireturns2.txt"), "w") as returns_file:
+        returns_file.write(responses)
+
+
+if __name__ == "__main__":
+    main()

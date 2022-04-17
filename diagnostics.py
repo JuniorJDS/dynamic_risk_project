@@ -31,7 +31,7 @@ def preprocess_data(dataframe: pd.DataFrame):
 
 
 ##################Function to get model predictions
-def model_predictions(dataset_path: str):
+def model_predictions(dataset_path: str = None):
 
     model = load(os.path.join(model_path, "trainedmodel.pkl"))
 
