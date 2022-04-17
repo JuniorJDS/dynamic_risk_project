@@ -24,7 +24,7 @@ def main():
         config = json.load(f) 
     model_path = os.path.join(config['output_model_path'])
 
-    with open(os.path.join(model_path, "apireturns2.txt"), "w") as returns_file:
+    with open(os.path.join(model_path, "apireturns.txt"), "w") as returns_file:
         returns_file.write(responses)
 
 

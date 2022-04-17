@@ -55,7 +55,7 @@ def main():
 
     if new_f1 >= old_f1:
         print("Actual F1 (%s) is better/equal than old F1 (%s), no drift detected -> exiting" % (new_f1, old_f1))    
-        # exit(0)
+        exit(0)
 
     print("Actual F1 (%s) is WORSE than old F1 (%s), drift detected -> training model" % (new_f1, old_f1)) 
     training.train_model()
